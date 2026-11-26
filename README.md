@@ -13,7 +13,7 @@
 | Path | What it is |
 | --- | --- |
 | `skills/llm-training-daily/` | The **Agent Skill**: drop it into your agent and it writes a lesson a day |
-| `curriculum.md` | Ordered topic list (30 to start); the next lesson takes the first unticked item |
+| `curriculum.md` | Ordered topic list (30 days); the next lesson takes the first unticked item |
 | `learner.md` | Who is learning: role, language, time zone. Lessons are tailored to it |
 | `lessons/` | One markdown file per day: the learning log |
 | `lessons/index.json` | List of lessons the website reads (regenerate with `node scripts/build-index.mjs`) |

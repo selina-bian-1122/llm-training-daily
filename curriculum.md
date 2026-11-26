@@ -46,4 +46,3 @@ One topic per day, in order. `- [x]` = covered (see `lessons/`). Edit freely: re
 - [ ] 具身智能：VLA 模型
 - [ ] 模仿学习：Teleops 与 Behavior Cloning
 - [ ] Sim-to-Real 与仿真数据
-- [ ] 数据供应商格局：各家商业模式对比
