@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LLM Training 每日一课</title>
+<meta name="description" content="One LLM training concept a day: SFT, RL, post-training, agents and embodied AI data.">
+<meta property="og:title" content="LLM Training 每日一课">
+<meta property="og:description" content="One LLM training concept a day: SFT, RL, post-training, agents and embodied AI data.">
+<style>
+:root{--bg:#fbfaf8;--card:#fff;--ink:#1d1d1f;--muted:#6b6b70;--line:#e7e4df;--accent:#c2416b;--accent-soft:#fbe9ef;--code:#f3f1ee}
+@media (prefers-color-scheme:dark){:root{--bg:#141416;--card:#1c1c1f;--ink:#ececee;--muted:#9a9aa2;--line:#2c2c31;--accent:#f07aa0;--accent-soft:#3a1f29;--code:#242428}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:760px;margin:0 auto;padding:40px 20px 80px}
+header.site{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:28px;font-size:14px}
+header.site .brand{font-weight:700;color:var(--ink)}
+header.site nav a{margin-left:16px;color:var(--muted)}
+h1{font-size:32px;line-height:1.25;margin:0 0 8px;letter-spacing:-.01em}
+h2{font-size:20px;margin:36px 0 12px}
+.lede{color:var(--muted);margin:0 0 24px}
+.progress{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted);margin:0 0 32px}
+.bar{flex:1;height:8px;background:var(--line);border-radius:99px;overflow:hidden}.bar span{display:block;height:100%;background:var(--accent);border-radius:99px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:0 0 12px}
+.card.latest{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.meta{font-size:13px;color:var(--muted)}
+.card h3{font-size:18px;margin:4px 0 6px;line-height:1.4}.card h3 a{color:var(--ink)}
+.card p{margin:0;color:var(--muted);font-size:15px}.card p+p{margin-top:10px}
+.pill{display:inline-block;font-size:12px;padding:1px 8px;border-radius:99px;background:var(--accent-soft);color:var(--accent);margin-right:6px}
+.stage{margin:0 0 20px}.stage h3{font-size:14px;color:var(--muted);font-weight:600;margin:0 0 6px}
+.stage ol{margin:0;padding:0;list-style:none}
+.stage li{display:flex;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.stage li .n{flex:none;width:28px;color:var(--muted);font-variant-numeric:tabular-nums}
+.stage li.done .t{color:var(--ink)}.stage li.todo .t{color:var(--muted)}
+.stage li .s{flex:none;margin-left:auto;font-size:13px;color:var(--muted)}.stage li.done .s{color:var(--accent)}
+article h2{font-size:19px;border-top:1px solid var(--line);padding-top:24px}
+article h2:first-of-type{border-top:0;padding-top:0}
+article blockquote{margin:0;padding:12px 16px;background:var(--accent-soft);border-radius:10px;color:var(--ink)}
+article blockquote p{margin:0}
+article table{width:100%;border-collapse:collapse;font-size:15px}
+article th,article td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+article th{color:var(--muted);font-weight:600}
+code{background:var(--code);padding:1px 5px;border-radius:5px;font-size:.92em}
+article ul{padding-left:22px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:40px;font-size:15px}
+.pager a{display:block;max-width:48%}
+.notice{color:var(--muted);padding:40px 0;text-align:center}
+footer{margin-top:56px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site"><a class="brand" href="#/">LLM Training 每日一课</a><nav><a href="#/roadmap">路线</a><a href="#/">日志</a><a id="gh" href="#">GitHub</a></nav></header>
+<main id="app"><p class="notice">加载中…</p></main>
+<footer>每天一课，由开源 Agent Skill <a class="ghlink" href="#">llm-training-daily</a> 研究、撰写并发布。内容采用 CC BY 4.0，代码采用 MIT。</footer>
+</div>
+<script>
+// Content lives in the GitHub repo. Served from a fork's own Vercel/GitHub Pages deploy, the
+// files sit next to this page; on any other host the page reads them from GitHub directly.
+const REPO = 'selina-bian-1122/llm-training-daily';
+const RAW = `https://raw.githubusercontent.com/${REPO}/main/`;
+const REPO_URL = `https://github.com/${REPO}`;
+document.getElementById('gh').href = REPO_URL;
+document.querySelectorAll('.ghlink').forEach((a) => (a.href = REPO_URL));
+
+const app = document.getElementById('app');
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const norm = (s) => String(s).replace(/\s+/g, '').toLowerCase();
+const slug = (day) => `day-${String(day).padStart(3, '0')}`;
+// Small markdown renderer for the lesson format: headings, paragraphs, lists, quotes, tables,
+// bold/italic/code/links. Text is escaped first, so lesson files cannot inject HTML.
+function inline(s) {
+  return esc(s)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
+}
+function md(src) {
+  const lines = src.replace(/\r/g, '').split('\n');
+  const out = [];
+  let i = 0;
+  const cells = (row) => row.trim().replace(/^\||\|$/g, '').split('|').map((c) => c.trim());
+  while (i < lines.length) {
+    const line = lines[i];
+    if (!line.trim()) { i++; continue; }
+    const h = line.match(/^(#{1,4})\s+(.*)$/);
+    if (h) { const lv = Math.max(2, Math.min(h[1].length, 4)); out.push(`<h${lv}>${inline(h[2])}</h${lv}>`); i++; continue; }
+    if (/^\s*[-*]\s+/.test(line)) {
+      const items = [];
+      while (i < lines.length && /^\s*[-*]\s+/.test(lines[i])) items.push(`<li>${inline(lines[i++].replace(/^\s*[-*]\s+/, ''))}</li>`);
+      out.push(`<ul>${items.join('')}</ul>`); continue;
+    }
+    if (/^\s*\d+\.\s+/.test(line)) {
+      const items = [];
+      while (i < lines.length && /^\s*\d+\.\s+/.test(lines[i])) items.push(`<li>${inline(lines[i++].replace(/^\s*\d+\.\s+/, ''))}</li>`);
+      out.push(`<ol>${items.join('')}</ol>`); continue;
+    }
+    if (/^>\s?/.test(line)) {
+      const q = [];
+      while (i < lines.length && /^>\s?/.test(lines[i])) q.push(lines[i++].replace(/^>\s?/, ''));
+      out.push(`<blockquote><p>${inline(q.join(' '))}</p></blockquote>`); continue;
+    }
+    if (/^\s*\|/.test(line) && i + 1 < lines.length && /^\s*\|?\s*:?-{2,}/.test(lines[i + 1])) {
+      const head = cells(line); i += 2;
+      const rows = [];
+      while (i < lines.length && /^\s*\|/.test(lines[i])) rows.push(cells(lines[i++]));
+      out.push(`<table><thead><tr>${head.map((c) => `<th>${inline(c)}</th>`).join('')}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${inline(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`);
+      continue;
+    }
+    const p = [];
+    while (i < lines.length && lines[i].trim() && !/^(#{1,4}\s|\s*[-*]\s|\s*\d+\.\s|>|\s*\|)/.test(lines[i])) p.push(lines[i++]);
+    if (!p.length) p.push(lines[i++]); // a line no other rule took: show it as text
+    out.push(`<p>${inline(p.join(' '))}</p>`);
+  }
+  return out.join('\n');
+}
+
+async function get(path, json) {
+  for (const base of ['./', RAW]) {
+    try {
+      const r = await fetch(base + path, { cache: 'no-cache' });
+      if (!r.ok) continue;
+      const text = await r.text();
+      if (json) return JSON.parse(text);
+      if (/^\s*<!doctype html/i.test(text)) continue; // a host's fallback page, not the file
+      return text;
+    } catch (e) { /* try the next source */ }
+  }
+  throw new Error(path);
+}
+
+function parseCurriculum(text) {
+  const stages = [];
+  for (const line of text.split('\n')) {
+    const h = line.match(/^##\s+(.+)$/);
+    if (h) { stages.push({ name: h[1].trim(), items: [] }); continue; }
+    const t = line.match(/^\s*-\s*\[([ xX])\]\s*(?:\d+\.\s*)?(.+)$/);
+    if (t && stages.length) stages.at(-1).items.push({ done: t[1] !== ' ', title: t[2].trim() });
+  }
+  return stages;
+}
+
+let data;
+async function load() {
+  if (!data) {
+    const [lessons, curriculum] = await Promise.all([get('lessons/index.json', true), get('curriculum.md')]);
+    data = { lessons: lessons.sort((a, b) => a.day - b.day), stages: parseCurriculum(curriculum) };
+  }
+  return data;
+}
+
+function home({ lessons, stages }, focus) {
+  const total = stages.reduce((n, s) => n + s.items.length, 0);
+  const done = stages.reduce((n, s) => n + s.items.filter((i) => i.done).length, 0);
+  const byTitle = new Map(lessons.map((l) => [norm(l.title), l]));
+  const cards = [...lessons].reverse().map((l, i) => `<div class="card${i === 0 ? ' latest' : ''}">
+    <div class="meta"><span class="pill">Day ${l.day}</span>${esc(l.date)}${l.stage ? ' · ' + esc(l.stage) : ''}</div>
+    <h3><a href="#/${slug(l.day)}">${esc(l.title)}</a></h3>${l.summary ? `<p>${esc(l.summary)}</p>` : ''}</div>`).join('');
+  let n = 0;
+  const roadmap = stages.map((s) => `<div class="stage"><h3>${esc(s.name)}</h3><ol>${s.items.map((it) => {
+    n += 1;
+    const l = byTitle.get(norm(it.title));
+    const t = l ? `<a class="t" href="#/${slug(l.day)}">${esc(it.title)}</a>` : `<span class="t">${esc(it.title)}</span>`;
+    return `<li class="${it.done ? 'done' : 'todo'}"><span class="n">${n}</span>${t}<span class="s">${it.done ? (l ? 'Day ' + l.day : '已学') : ''}</span></li>`;
+  }).join('')}</ol></div>`).join('');
+  app.innerHTML = `<h1>LLM Training 每日一课</h1>
+    <p class="lede">One LLM training concept a day: SFT, RL, post-training, agents and embodied AI data. 每天一个知识点，讲清楚、给类比、附来源，并说明它和 AI 数据业务的关系。</p>
+    <div class="progress"><span>${done} / ${total}</span><div class="bar"><span style="width:${total ? Math.round((done / total) * 100) : 0}%"></span></div><span>已完成</span></div>
+    <h2 id="log">学习日志</h2>${cards || '<p class="lede">还没有课程。</p>'}
+    <h2 id="roadmap">学习路线</h2>${roadmap}
+    <h2>在你自己的 Agent 里用</h2>
+    <div class="card"><p>这个站点由开源 Agent Skill 每天自动更新。把 <code>skills/llm-training-daily</code> 放进 Claude Code 或任何支持 SKILL.md 的 Agent，改写 <code>learner.md</code>（语言、角色、时区），就能得到为你定制的每日一课。Fork 之后部署到 Vercel，就是你自己的学习站。</p>
+    <p><a href="${REPO_URL}">GitHub：llm-training-daily →</a></p></div>`;
+  document.title = 'LLM Training 每日一课';
+  if (focus) document.getElementById(focus)?.scrollIntoView();
+  else window.scrollTo(0, 0);
+}
+
+async function lesson({ lessons }, s) {
+  const i = lessons.findIndex((l) => slug(l.day) === s);
+  if (i < 0) { app.innerHTML = '<p class="notice">没有找到这一课。<a href="#/">回到首页</a></p>'; return; }
+  const l = lessons[i], prev = lessons[i - 1], next = lessons[i + 1];
+  const body = (await get('lessons/' + (l.file || s + '.md'))).replace(/^---\n[\s\S]*?\n---\n?/, '');
+  app.innerHTML = `<p class="meta"><span class="pill">Day ${l.day}</span>${esc(l.date)}${l.stage ? ' · ' + esc(l.stage) : ''}</p>
+    <h1>${esc(l.title)}</h1><article>${md(body)}</article>
+    <nav class="pager"><span>${prev ? `<a href="#/${slug(prev.day)}">← Day ${prev.day} · ${esc(prev.title)}</a>` : ''}</span>
+    <span>${next ? `<a href="#/${slug(next.day)}">Day ${next.day} · ${esc(next.title)} →</a>` : ''}</span></nav>`;
+  document.title = `Day ${l.day} · ${l.title} | LLM Training 每日一课`;
+  window.scrollTo(0, 0);
+}
+
+async function route() {
+  const r = location.hash.replace(/^#\/?/, '');
+  try {
+    const d = await load();
+    if (/^day-\d+$/.test(r)) await lesson(d, r);
+    else home(d, r === 'roadmap' ? 'roadmap' : null);
+  } catch (e) {
+    app.innerHTML = `<p class="notice">内容暂时加载不了，稍后刷新试试。<br>也可以直接在 <a href="${REPO_URL}">GitHub</a> 上看。</p>`;
+  }
+}
+addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>

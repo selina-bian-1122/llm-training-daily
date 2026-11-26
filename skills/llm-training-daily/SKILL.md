@@ -16,6 +16,7 @@ Look for these at the root of the working repo (the folder holding `curriculum.m
 | `curriculum.md` | Ordered checklist of topics, grouped by `## stage` headings. `- [x]` = done. |
 | `learner.md` | Optional. Who is learning: role, industry, language, what they need the knowledge for. |
 | `lessons/day-NNN.md` | One file per lesson, with frontmatter. The folder is the log. |
+| `lessons/index.json` | Lesson list a website reads. Regenerate it after adding a lesson. |
 | `references/lesson-template.md` | The exact lesson format (in this skill's folder). |
 
 ## Steps
@@ -26,8 +27,9 @@ Look for these at the root of the working repo (the folder holding `curriculum.m
 4. **Write** the lesson exactly as in `references/lesson-template.md`, in the learner's language (from `learner.md`; otherwise the user's language), keeping English technical terms. Tailor "Why it matters" and the conversation line to the learner's role. Link back to earlier lessons where a concept builds on one ("see Day 3").
 5. **Save** it as `lessons/day-NNN.md` (zero-padded: `day-007.md`).
 6. **Tick** that one topic in `curriculum.md` (`- [ ]` → `- [x]`). Change nothing else.
-7. **Publish**, if the repo is under git: commit with the message `Day N: <title>` and push. A connected host (such as Vercel) rebuilds the site from the push.
-8. **Report** in 3–4 lines: Day N, the title, the one-line takeaway, and the site link if `learner.md` gives one.
+7. **Index:** run `node scripts/build-index.mjs` if it exists; otherwise append the lesson's frontmatter (plus `"file": "day-NNN.md"`) to `lessons/index.json` by hand.
+8. **Publish**, if the repo is under git: commit with the message `Day N: <title>` and push. A site that reads the repo updates on its own.
+9. **Report** in 3–4 lines: Day N, the title, the one-line takeaway, and the site link if `learner.md` gives one.
 
 ## Quality bar
 

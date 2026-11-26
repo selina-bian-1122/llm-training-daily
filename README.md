@@ -16,7 +16,8 @@
 | `curriculum.md` | Ordered topic list (30 to start); the next lesson takes the first unticked item |
 | `learner.md` | Who is learning: role, language, time zone. Lessons are tailored to it |
 | `lessons/` | One markdown file per day: the learning log |
-| `scripts/build.mjs` | Turns the lessons and the curriculum into a static site in `public/` |
+| `lessons/index.json` | List of lessons the website reads (regenerate with `node scripts/build-index.mjs`) |
+| `index.html` | The whole website: one static page that renders `curriculum.md` and `lessons/` |
 
 ## Use the skill in your own agent
 
@@ -33,15 +34,11 @@ With no repo around, the skill simply teaches the lesson in chat.
 
 1. **Fork** this repo.
 2. Rewrite **`learner.md`** for yourself (language, role, time zone). Edit **`curriculum.md`**, and delete `lessons/*` if you want to start at Day 1.
-3. **Deploy:** import the repo in [Vercel](https://vercel.com/new). `vercel.json` already sets the build (`npm run build`, output `public/`).
-4. **Schedule** your agent to run once a day in the repo: *"Use the llm-training-daily skill to write today's lesson, then commit and push."* Each push redeploys the site.
+3. In `index.html`, change `REPO` to your fork (`your-name/llm-training-daily`).
+4. **Deploy:** import the repo in [Vercel](https://vercel.com/new) (no build step, no dependencies), or turn on GitHub Pages. The page reads lessons from files next to it, or straight from GitHub, so a push is all it takes to publish.
+5. **Schedule** your agent to run once a day in the repo: *"Use the llm-training-daily skill to write today's lesson, then commit and push."*
 
-Build locally:
-
-```bash
-npm install
-npm run build   # → public/index.html
-```
+Preview locally: `python3 -m http.server` in the repo, then open http://localhost:8000.
 
 ## Lesson format
 
