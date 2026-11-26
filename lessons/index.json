@@ -6,5 +6,13 @@
     "title": "SFT vs RL：照着学 vs 试错学",
     "stage": "全景与基础",
     "summary": "SFT 让模型照着专家示范学「怎么答」，RL 让模型自己尝试、靠打分学「怎么答得更好」。"
+  },
+  {
+    "file": "day-002.md",
+    "day": 2,
+    "date": "2026-11-26",
+    "title": "LLM 训练全流程：Pre-training → Mid-training → Post-training",
+    "stage": "全景与基础",
+    "summary": "预训练用海量通用数据打底，中训练用少而精的专项数据补强数学、代码等能力，后训练用 SFT 和 RL 把模型教成好用的助手。"
   }
 ]

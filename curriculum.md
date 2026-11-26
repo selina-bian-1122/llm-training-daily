@@ -5,7 +5,7 @@ One topic per day, in order. `- [x]` = covered (see `lessons/`). Edit freely: re
 ## 全景与基础
 
 - [x] SFT vs RL：照着学 vs 试错学
-- [ ] LLM 训练全流程：Pre-training → Mid-training → Post-training
+- [x] LLM 训练全流程：Pre-training → Mid-training → Post-training
 - [ ] Token、Tokenizer 与上下文窗口
 - [ ] 预训练数据：规模、配比与清洗
 - [ ] Scaling Laws：数据、参数、算力的关系
