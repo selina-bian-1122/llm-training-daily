@@ -36,6 +36,7 @@ One topic per day, in order. `- [x]` = covered (see `lessons/`). Edit freely: re
 - [ ] Agent RL 与 RL Environments
 - [ ] Tool Use / Function Calling 数据
 - [ ] Benchmark 与数据污染（Contamination）
+- [ ] 过程回溯与消融实验（Ablation Study）
 - [ ] 专家评测、Human Eval 与 Arena
 - [ ] 安全对齐：Constitutional AI 与 Red Teaming
 
